@@ -1,11 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import { Img, Text, Input, Button, List } from "components";
 
 const BlogPage = () => {
+
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
+  const [data3, setData3] = useState([]);
+
+  useEffect(() => {
+
+
+    fetchData1();
+    fetchData2();
+    fetchData2();
+  }, []);
+
+
+  const fetchData1 = async () => {
+    const params = {
+      size :2,
+    }
+    const result = await axios.get(
+      "http://autofixer.com.ng/portal/public/api/get-comment",{
+        params
+      }
+    );
+
+    setData1(result.data);
+  };
+
+  const fetchData2 = async () => {
+    const result = await axios(
+      "http://autofixer.com.ng/portal/public/api/get-recentBlog"
+    );
+
+    setData2(result.data);
+  };
+
+  const fetchData3 = async () => {
+    const result = await axios(
+      "http://autofixer.com.ng/portal/public/api/get-posts"
+    );
+
+    setData3(result.data);
+  };
+
+
   return (
+  
+    
     <>
       <div className="bg-white_A700 flex flex-col font-segoeui items-center justify-start mx-[auto] w-[100%]">
+      
         <div className="flex flex-col gap-[120px] md:gap-[40px] sm:gap-[40px] items-center justify-start md:w-[100%] sm:w-[100%] w-[auto]">
           <div className="sm:h-[1245px] md:h-[1560px] h-[2235px] relative w-[100%]">
             <div className="absolute sm:h-[1096px] md:h-[758px] h-[839px] inset-x-[0] mx-[auto] top-[0] w-[100%]">
@@ -147,7 +195,9 @@ const BlogPage = () => {
                 </header>
               </div>
             </div>
+            
             <div className="absolute bg-white_A700 bottom-[0] flex sm:flex flex-col sm:h-[50%] inset-x-[0] items-center justify-end sm:max-h-[50%] sm:max-w-[85%] sm:mb-[-95px] sm:ml-[] sm:mt-[1px] mx-[auto] p-[86px] sm:pb-[93px] sm:pl-[] sm:pr-[] sm:pt-[] md:px-[40px] shadow-bs w-[85%]">
+              
               <Text
                 className="sm:font-semibold sm:mb-[-14px] mt-[34px] sm:pb-[39px] sm:pr-[] sm:relative sm:text-[20px] text-center text-gray_900 sm:top-[-100px]"
                 as="h1"
@@ -222,6 +272,7 @@ const BlogPage = () => {
                 alt="RectangleFive"
               />
             </div>
+
           </div>
           <div className="bg-gray_200 flex flex-col items-center justify-end mb-[10px] md:ml-[0] sm:ml-[0] ml-[10px] mr-[10px] mt-[-10px] mx-[10px] p-[90px] sm:px-[20px] md:px-[40px] w-[100%]">
             <div className="flex flex-col md:gap-[40px] sm:gap-[40px] gap-[64px] items-center justify-start md:w-[100%] sm:w-[100%] w-[48%]">
@@ -261,62 +312,39 @@ const BlogPage = () => {
                   </Button>
                 </div>
               </div>
-              <div className="flex flex-col gap-[32px] h-[224px] md:h-[auto] sm:h-[auto] items-start justify-start max-w-[654px] mt-[-30px] w-[100%]">
-                <List
-                  className="flex-col gap-[32px] grid sm:w-[100%] w-[53%]"
+
+
+              <div className="flex flex-col gap-[32px] h-[224px] md:h-[auto] sm:h-[auto] items-start justify-start max-w-[354px] mt-[-20px] w-[50%]">
+              {data1.map((item, index) => (
+                
+                <List key={index}
+                  className="flex-col gap-[30px] grid sm:w-[100%] w-[50%]"
                   orientation="vertical"
                 >
-                  <div className="flex flex-row gap-[37px] items-center justify-between w-[100%]">
-                    <Img
-                      src="images/img_ellipse3.png"
-                      className="h-[80px] md:h-[auto] sm:h-[auto] rounded-radius501 w-[80px]"
-                      alt="EllipseThree"
-                    />
-                    <div className="flex flex-col gap-[14px] sm:gap-[1px] sm:gap-x-[1px] sm:gap-y-[1px] items-start justify-start w-[auto]">
-                      <Text
-                        className="sm:m-[10px] sm:mb-[10px] mb-[3px] md:ml-[0] ml-[10px] sm:ml-[10px] sm:mr-[10px] mr-[3px] sm:mt-[10px] mt-[3px] sm:my-[10px] my-[3px] p-[1px] pb-[1px] pl-[1px] pr-[1px] pt-[1px] text-black_900 text-left w-[auto]"
-                        as="h3"
-                        variant="h3"
-                      >
-                        <span className="sm:text-[20px] md:text-[22px] text-gray_900 text-[24px] font-segoeui font-semibold">
-                          Big sully /
-                        </span>
-                        <span className="sm:text-[20px] md:text-[22px] text-black_900 text-[24px] font-segoeui font-semibold">
-                          {" "}
-                        </span>
-                        <span className="text-black_900_4c text-[20px] font-segoeui font-semibold">
-                          1hr ago
-                        </span>
-                      </Text>
-                      <Text
-                        className="flex flex-row font-normal items-center justify-center md:ml-[0] sm:ml-[0] ml-[10px] mt-[3px] text-gray_900 text-left w-[auto]"
-                        as="h5"
-                        variant="h5"
-                      >
-                        It was insightful, welldone
-                      </Text>
-                    </div>
-                  </div>
-                  <div className="flex flex-row gap-[37px] items-center justify-between w-[100%]">
+                  <div className="flex flex-row gap-[30px] items-center justify-between w-[60%]">
+                 
                     <Img
                       src="images/img_ellipse3_80x80.png"
-                      className="h-[80px] md:h-[auto] sm:h-[auto] rounded-radius501 w-[80px]"
+                      className="h-[60px] md:h-[auto] sm:h-[auto] rounded-radius501 w-[60px]"
                       alt="EllipseThree One"
                     />
                     <div className="flex flex-col gap-[14px] sm:gap-[1px] sm:gap-x-[1px] sm:gap-y-[1px] items-start justify-start w-[auto]">
                       <Text
                         className="sm:m-[10px] sm:mb-[10px] md:ml-[0] ml-[10px] sm:ml-[10px] sm:mr-[10px] sm:mt-[10px] mt-[1px] sm:my-[10px] text-black_900 text-left w-[auto]"
-                        as="h3"
-                        variant="h3"
+                        as="h5"
+                        variant="h5"
                       >
+                         
                         <span className="sm:text-[20px] md:text-[22px] text-gray_900 text-[24px] font-segoeui font-semibold">
-                          Big sully /
+                        {item.name}
+                         
                         </span>
-                        <span className="sm:text-[20px] md:text-[22px] text-black_900 text-[24px] font-segoeui font-semibold">
-                          {" "}
+
+                        <span className=" p-1 m-1 sm:text-[20px] md:text-[22px] text-black_900 text-[24px] font-segoeui font-semibold">
+                          /
                         </span>
                         <span className="text-black_900_4c text-[20px] font-segoeui font-semibold">
-                          1hr ago
+                          {item.duration}
                         </span>
                       </Text>
                       <Text
@@ -324,30 +352,29 @@ const BlogPage = () => {
                         as="h5"
                         variant="h5"
                       >
-                        It was insightful, welldone
+                       {item.text}
                       </Text>
                     </div>
                   </div>
                 </List>
-                <div className="flex flex-col items-center justify-end md:w-[100%] sm:w-[100%] w-[13%]">
-                  <Img
-                    src="images/img_ellipse3_80x80.png"
-                    className="h-[80px] md:h-[auto] sm:h-[auto] hidden rounded-radius501 w-[80px]"
-                    alt="EllipseThree Two"
-                  />
-                </div>
+               
+                 ))}
               </div>
+
+
+
             </div>
           </div>
           <div className="flex flex-col gap-[48px] items-center justify-start max-w-[1331px] mx-[auto] md:px-[20px] sm:px-[20px] w-[100%]">
             <div className="flex flex-col gap-[13px] items-center justify-start md:w-[100%] sm:w-[100%] w-[24%]">
-              <Text
-                className="capitalize text-[33px] text-black_900 text-center w-[auto]"
+            <Text
+                className="capitalize text-[30px] text-black_900 text-center w-full"
                 as="h2"
                 variant="h2"
               >
                 RECENT ARTICLES
               </Text>
+
               <Text
                 className="font-medium text-[30px] text-gray_900 text-left w-[auto]"
                 as="h5"
@@ -404,90 +431,6 @@ const BlogPage = () => {
                     src="images/img_rectangle6.png"
                     className="h-[502px] sm:h-[auto] object-cover w-[100%]"
                     alt="RectangleSix"
-                  />
-                  <div className="flex flex-col gap-[16px] items-center justify-start md:w-[100%] sm:w-[100%] w-[90%]">
-                    <div className="flex flex-col items-center justify-start md:w-[100%] sm:w-[100%] w-[61%]">
-                      <Text
-                        className="font-normal text-left text-red_A700 w-[auto]"
-                        as="h5"
-                        variant="h5"
-                      >
-                        AUTOFIXER ARTICLES
-                      </Text>
-                      <Text
-                        className="mt-[18px] text-[26px] text-gray_900 text-left w-[auto]"
-                        as="h3"
-                        variant="h3"
-                      >
-                        HOW TO USE BASIC TOOLS
-                      </Text>
-                      <Text
-                        className="font-semibold mt-[27px] text-black_900_4c text-left w-[auto]"
-                        as="h6"
-                        variant="h6"
-                      >
-                        JAN, 22, 2023{" "}
-                      </Text>
-                    </div>
-                    <Text
-                      className="font-normal text-black_900 text-center w-[100%]"
-                      as="h4"
-                      variant="h4"
-                    >
-                      {" "}
-                      Laoreet cras at morbi in. Nibh ante in gravida faucibus.
-                      Fermentum urna nibh amet enim adipiscing tincidunt. ....
-                    </Text>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-1 flex-col gap-[29px] items-center justify-start w-[100%]">
-                <Img
-                  src="images/img_rectangle5_502x645.png"
-                  className="h-[502px] sm:h-[auto] object-cover w-[100%]"
-                  alt="RectangleFive Two"
-                />
-                <div className="flex flex-col gap-[16px] items-center justify-start md:w-[100%] sm:w-[100%] w-[90%]">
-                  <div className="flex flex-col items-center justify-start md:w-[100%] sm:w-[100%] w-[61%]">
-                    <Text
-                      className="font-normal text-left text-red_A700 w-[auto]"
-                      as="h5"
-                      variant="h5"
-                    >
-                      AUTOFIXER ARTICLES
-                    </Text>
-                    <Text
-                      className="mt-[18px] text-[26px] text-gray_900 text-left w-[auto]"
-                      as="h3"
-                      variant="h3"
-                    >
-                      HOW TO USE BASIC TOOLS
-                    </Text>
-                    <Text
-                      className="font-semibold mt-[27px] text-black_900_4c text-left w-[auto]"
-                      as="h6"
-                      variant="h6"
-                    >
-                      JAN, 22, 2023{" "}
-                    </Text>
-                  </div>
-                  <Text
-                    className="font-normal text-black_900 text-center w-[100%]"
-                    as="h4"
-                    variant="h4"
-                  >
-                    {" "}
-                    Laoreet cras at morbi in. Nibh ante in gravida faucibus.
-                    Fermentum urna nibh amet enim adipiscing tincidunt. ....
-                  </Text>
-                </div>
-              </div>
-              <div className="flex flex-1 flex-col items-center justify-start w-[100%]">
-                <div className="flex flex-col gap-[29px] items-center justify-start w-[100%]">
-                  <Img
-                    src="images/img_rectangle6.png"
-                    className="h-[502px] sm:h-[auto] object-cover w-[100%]"
-                    alt="RectangleSix One"
                   />
                   <div className="flex flex-col gap-[16px] items-center justify-start md:w-[100%] sm:w-[100%] w-[90%]">
                     <div className="flex flex-col items-center justify-start md:w-[100%] sm:w-[100%] w-[61%]">
